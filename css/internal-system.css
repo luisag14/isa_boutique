@@ -1,0 +1,2765 @@
+/* ===============================
+   Isa Boutique - Sistema interno
+   Capa visual para administrador y vendedor.
+   No afecta la tienda pública.
+================================ */
+
+.admin-page {
+    --sys-bg: #f7f7f6;
+    --sys-paper: #ffffff;
+    --sys-card: #ffffff;
+    --sys-soft: #f4f1ef;
+    --sys-soft-2: #f8f3f1;
+    --sys-line: rgba(203, 213, 225, 0.72);
+    --sys-text: #2f3b4d;
+    --sys-muted: #64748b;
+    --sys-rose: #98546a;
+    --sys-rose-dark: #814457;
+    --sys-gold: #c9a66b;
+    --sys-brown: #475569;
+    --sys-shadow: 0 10px 28px -16px rgba(51, 65, 85, 0.14);
+    --sys-shadow-hover: 0 12px 20px -10px rgba(51, 65, 85, 0.14);
+    background: var(--sys-bg);
+    color: var(--sys-text);
+    font-family: "Plus Jakarta Sans", "Segoe UI", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.admin-page #contenido {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 5% 15%, rgba(201, 166, 107, 0.08) 0%, transparent 40%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(247, 247, 246, 0.98)),
+        var(--sys-bg);
+}
+
+.admin-page #loginBox {
+    background:
+        radial-gradient(circle at 48% 12%, rgba(189, 148, 80, 0.16), transparent 32%),
+        linear-gradient(135deg, #fffdfb 0%, #fff4ef 100%);
+}
+
+.admin-page .login-content {
+    border: 1px solid var(--sys-line);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: var(--sys-shadow);
+}
+
+.admin-page .login-content h2,
+.admin-brand,
+.admin-page .admin-panel h2,
+.dashboard-panel-header h3,
+.vendedor-panel-header h2,
+.venta-resumen h3,
+.finance-form h3,
+.finance-subtitle {
+    font-family: "Libre Caslon Text", Georgia, serif;
+    font-weight: 400;
+}
+
+.admin-topbar {
+    min-height: 74px;
+    padding: 14px clamp(18px, 4vw, 54px);
+    border-bottom: 1px solid var(--sys-line);
+    background: rgba(255, 253, 251, 0.96);
+    box-shadow: 0 8px 28px rgba(58, 42, 34, 0.05);
+    backdrop-filter: blur(14px);
+}
+
+.admin-brand {
+    color: var(--sys-rose);
+    font-size: clamp(28px, 3vw, 38px);
+    line-height: 1;
+}
+
+.admin-topbar p {
+    margin-top: 4px;
+    color: var(--sys-muted);
+    font-size: 12px;
+}
+
+.admin-userbar {
+    gap: 10px;
+    position: relative;
+}
+
+.admin-userbar span {
+    color: var(--sys-text);
+}
+
+.admin-userbar a,
+.admin-userbar button {
+    min-height: 36px;
+    padding: 8px 12px;
+    border: 1px solid var(--sys-line);
+    border-radius: 10px;
+    background: var(--sys-card);
+    color: var(--sys-rose);
+    font-size: 11px;
+}
+
+.admin-userbar button,
+.admin-page .btn,
+.admin-page .btn-agregar,
+.admin-page .tabla-inventario button {
+    background: var(--sys-rose);
+    color: #fff;
+}
+
+.admin-userbar .notification-button {
+    position: relative;
+    width: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    display: inline-grid;
+    place-items: center;
+    padding: 0;
+    border-color: rgba(149, 64, 83, 0.22);
+    border-radius: 999px;
+    background: #fffaf7;
+    color: var(--sys-rose);
+    box-shadow: 0 8px 20px rgba(58, 42, 34, 0.06);
+}
+
+.notification-bell {
+    width: 20px;
+    height: 20px;
+    display: block;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.admin-userbar .notification-button .notification-bell {
+    transform-origin: 50% 0;
+}
+
+.admin-userbar .notification-button strong {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    min-width: 20px;
+    height: 20px;
+    display: inline-grid;
+    place-items: center;
+    padding: 0 5px;
+    border: 2px solid #fff;
+    border-radius: 999px;
+    background: #8f7b72;
+    color: #fff;
+    font-size: 11px;
+    line-height: 1;
+}
+
+.admin-userbar .notification-button.tiene-alerta {
+    background: var(--sys-rose);
+    color: #fff;
+    border-color: var(--sys-rose);
+    box-shadow: 0 12px 24px rgba(149, 64, 83, 0.22);
+}
+
+.admin-userbar .notification-button.tiene-alerta strong {
+    background: var(--sys-gold);
+    color: var(--sys-brown);
+}
+
+.admin-userbar .notification-button.tiene-alerta .notification-bell {
+    animation: bell-soft-ring 1.7s ease-in-out infinite;
+}
+
+.notification-popover {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 110px;
+    z-index: 80;
+    width: min(340px, calc(100vw - 32px));
+    max-height: 420px;
+    overflow: auto;
+    display: none;
+    padding: 14px;
+    border: 1px solid rgba(163, 88, 109, 0.18);
+    border-radius: 18px;
+    background: rgba(255, 253, 251, 0.98);
+    box-shadow: 0 20px 45px rgba(58, 42, 34, 0.16);
+}
+
+.notification-popover.abierto {
+    display: grid;
+    gap: 10px;
+}
+
+.notification-popover h4 {
+    margin: 0;
+    color: var(--sys-rose);
+    font-size: 15px;
+}
+
+.notification-popover p {
+    margin: 0;
+    color: var(--sys-muted);
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.notification-item {
+    display: grid;
+    gap: 7px;
+    padding: 11px;
+    border: 1px solid var(--sys-line);
+    border-radius: 14px;
+    background: #fffaf7;
+}
+
+.notification-item strong,
+.notification-item span,
+.notification-item small {
+    display: block;
+}
+
+.notification-item strong {
+    color: var(--sys-brown);
+    font-size: 13px;
+}
+
+.notification-item span,
+.notification-item small {
+    color: var(--sys-muted);
+    font-size: 12px;
+}
+
+.notification-item button {
+    justify-self: start;
+    min-height: 32px;
+    padding: 7px 10px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--sys-rose);
+    color: #fff;
+    cursor: pointer;
+}
+
+@keyframes bell-soft-ring {
+    0%, 70%, 100% {
+        transform: rotate(0deg);
+    }
+
+    76% {
+        transform: rotate(9deg);
+    }
+
+    84% {
+        transform: rotate(-8deg);
+    }
+
+    92% {
+        transform: rotate(5deg);
+    }
+}
+
+.admin-page .admin-shell {
+    width: min(1440px, calc(100% - 28px));
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 28px;
+    margin-top: 28px;
+}
+
+.admin-page .admin-tabs {
+    top: 98px;
+    max-height: calc(100vh - 120px);
+    padding: 20px 14px;
+    border: 1px solid var(--sys-line);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: var(--sys-shadow);
+}
+
+.admin-tabs-title {
+    margin-bottom: 14px;
+    padding: 0 12px 14px;
+    border-bottom: 1px solid var(--sys-line);
+    color: var(--sys-gold);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+}
+
+.admin-page .admin-tab {
+    --tab-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2'/%3E%3Cpath d='M8 8h8M8 12h8M8 16h5'/%3E%3C/svg%3E");
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 44px;
+    margin-bottom: 6px;
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--sys-muted);
+    font-size: 13.5px;
+    font-weight: 600;
+    text-align: left;
+    position: relative;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.admin-page .admin-tab::before {
+    content: "";
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+    background-color: currentColor;
+    -webkit-mask: var(--tab-icon) center / contain no-repeat;
+    mask: var(--tab-icon) center / contain no-repeat;
+    opacity: 0.82;
+    transition: opacity 0.25s ease;
+}
+
+.admin-page .admin-tab:hover {
+    background: var(--sys-soft);
+    color: var(--sys-rose);
+    transform: translateX(4px);
+}
+
+.admin-page .admin-tab:hover::before {
+    opacity: 1;
+}
+
+.admin-page .admin-tab.activo {
+    background: linear-gradient(135deg, var(--sys-rose) 0%, var(--sys-rose-dark) 100%);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 8px 15px -3px rgba(163, 88, 109, 0.25);
+    transform: translateX(4px);
+}
+
+.admin-page .admin-tab.activo::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 4px;
+    border-radius: 0 4px 4px 0;
+    background: var(--sys-gold);
+}
+
+.admin-page .admin-tab[data-panel-target="panel-inicio"] {
+    --tab-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='7' height='9'/%3E%3Crect x='14' y='3' width='7' height='5'/%3E%3Crect x='14' y='12' width='7' height='9'/%3E%3Crect x='3' y='16' width='7' height='5'/%3E%3C/svg%3E");
+}
+
+.admin-page .admin-tab[data-panel-target="panel-menu-inventario"],
+.admin-page .admin-tab[data-panel-target="panel-inventario"] {
+    --tab-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'/%3E%3Cpolyline points='3.27 6.96 12 12.01 20.73 6.96'/%3E%3Cline x1='12' y1='22.08' x2='12' y2='12'/%3E%3C/svg%3E");
+}
+
+.admin-page .admin-tab[data-panel-target="panel-menu-ventas"],
+.admin-page .admin-tab[data-panel-target="panel-venta"],
+.admin-page .admin-tab[data-panel-target="panel-historial"] {
+    --tab-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z'/%3E%3Cline x1='7' y1='7' x2='7.01' y2='7'/%3E%3C/svg%3E");
+}
+
+.admin-page .admin-tab[data-panel-target="panel-menu-finanzas"],
+.admin-page .admin-tab[data-panel-target="panel-reportes"] {
+    --tab-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='20' x2='18' y2='10'/%3E%3Cline x1='12' y1='20' x2='12' y2='4'/%3E%3Cline x1='6' y1='20' x2='6' y2='14'/%3E%3C/svg%3E");
+}
+
+.admin-page .admin-tab[data-panel-target="panel-menu-personas"] {
+    --tab-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M23 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E");
+}
+
+.admin-page .admin-tab[data-panel-target="panel-menu-configuracion"] {
+    --tab-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3Cpath d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'/%3E%3C/svg%3E");
+}
+
+.admin-page .admin-panel {
+    padding: clamp(18px, 2.4vw, 30px);
+    border: 1px solid var(--sys-line);
+    border-radius: 20px;
+    background: rgba(255, 253, 251, 0.94);
+    box-shadow: var(--sys-shadow);
+    overflow-x: auto;
+}
+
+.admin-page .admin-panel h2 {
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--sys-line);
+    color: var(--sys-rose);
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.1;
+}
+
+.dashboard-hero,
+.vendedor-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+    padding: 24px;
+    border: 1px solid var(--sys-line);
+    border-radius: 18px;
+    background:
+        linear-gradient(135deg, #fffdfb 0%, #fff4ef 58%, #f1e5d9 100%);
+    box-shadow: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-hero::before {
+    content: "";
+    position: absolute;
+    right: -26px;
+    top: -28px;
+    width: 150px;
+    height: 150px;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(214, 184, 144, 0.18) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.dashboard-hero h2,
+.vendedor-panel-header h2 {
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.1;
+}
+
+.vendedor-panel-header > div {
+    display: grid;
+    gap: 4px;
+}
+
+.vendedor-panel-header p {
+    max-width: 420px;
+    margin: 0;
+    text-align: right;
+}
+
+.dashboard-hero span,
+.dashboard-panel-header span,
+.vendedor-panel-header span,
+.venta-resumen span {
+    color: var(--sys-gold);
+}
+
+.dashboard-hero h2,
+.dashboard-panel-header h3,
+.vendedor-panel-header h2,
+.venta-resumen h3 {
+    color: var(--sys-rose);
+}
+
+.dashboard-hero p,
+.vendedor-panel-header p {
+    color: var(--sys-muted);
+}
+
+.dashboard-cards,
+.client-summary-grid,
+.admin-module-grid,
+.reportes,
+.finance-breakdown {
+    gap: 14px;
+}
+
+.dashboard-card,
+.admin-module-grid button,
+.dashboard-panel,
+.admin-page .reporte-card,
+.finance-form,
+.finance-breakdown div,
+.purchase-items-box,
+.venta-resumen {
+    border: 1px solid var(--sys-line);
+    border-radius: 16px;
+    background: var(--sys-card);
+    box-shadow: 0 8px 22px rgba(58, 42, 34, 0.05);
+}
+
+.dashboard-card,
+.admin-page .reporte-card {
+    --card-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2'/%3E%3Cpath d='M8 8h8M8 12h8M8 16h5'/%3E%3C/svg%3E");
+    min-height: 108px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.dashboard-card:hover,
+.admin-page .reporte-card:hover,
+.dashboard-panel:hover {
+    border-color: rgba(163, 88, 109, 0.28);
+    box-shadow: var(--sys-shadow-hover);
+    transform: translateY(-3px);
+}
+
+.dashboard-card::after,
+.admin-page .reporte-card::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--sys-gold), var(--sys-rose));
+    opacity: 0.75;
+}
+
+.dashboard-card::before,
+.admin-page .reporte-card::before {
+    content: "";
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    width: 48px;
+    height: 48px;
+    background-color: var(--sys-rose);
+    opacity: 0.045;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    -webkit-mask: var(--card-icon) center / contain no-repeat;
+    mask: var(--card-icon) center / contain no-repeat;
+}
+
+.dashboard-card:hover::before,
+.admin-page .reporte-card:hover::before {
+    opacity: 0.08;
+    transform: scale(1.08) rotate(-4deg);
+}
+
+.dashboard-cards .dashboard-card:nth-child(1) {
+    --card-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='23 6 13.5 15.5 8.5 10.5 1 18'/%3E%3Cpolyline points='17 6 23 6 23 12'/%3E%3C/svg%3E");
+}
+
+.dashboard-cards .dashboard-card:nth-child(2) {
+    --card-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'/%3E%3Cpolyline points='3.27 6.96 12 12.01 20.73 6.96'/%3E%3Cline x1='12' y1='22.08' x2='12' y2='12'/%3E%3C/svg%3E");
+}
+
+.dashboard-cards .dashboard-card:nth-child(3) {
+    --card-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z'/%3E%3Cline x1='12' y1='9' x2='12' y2='13'/%3E%3Cline x1='12' y1='17' x2='12.01' y2='17'/%3E%3C/svg%3E");
+}
+
+.dashboard-cards .dashboard-card:nth-child(4) {
+    --card-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='12' y1='1' x2='12' y2='23'/%3E%3Cpath d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'/%3E%3C/svg%3E");
+}
+
+.dashboard-card span,
+.admin-page .reporte-card h4 {
+    color: var(--sys-muted);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+}
+
+.dashboard-card strong,
+.admin-page .reporte-card p,
+.venta-resumen strong {
+    color: var(--sys-rose);
+}
+
+.dashboard-card strong {
+    font-size: clamp(24px, 2.7vw, 34px);
+}
+
+.admin-page .reporte-card p {
+    font-size: clamp(22px, 2.4vw, 30px);
+}
+
+.admin-module-grid button {
+    position: relative;
+    min-height: 122px;
+    padding: 17px 17px 17px 22px;
+    overflow: hidden;
+    text-align: left;
+}
+
+.admin-module-grid button::before {
+    content: "";
+    position: absolute;
+    inset: 14px auto 14px 0;
+    width: 4px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--sys-rose), var(--sys-gold));
+}
+
+.admin-module-grid button:hover {
+    transform: translateY(-2px);
+    border-color: #d2b889;
+    background: var(--sys-soft);
+}
+
+.admin-module-grid span {
+    color: var(--sys-rose);
+    font-size: clamp(20px, 2.1vw, 27px);
+}
+
+.admin-module-grid strong {
+    margin-top: 9px;
+    color: var(--sys-muted);
+    font-size: 13px;
+}
+
+.pedidos-pendientes-panel {
+    margin-bottom: 16px;
+}
+
+.pending-orders-list {
+    display: grid;
+    gap: 10px;
+}
+
+.pending-order-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--sys-line);
+    border-radius: 14px;
+    background: #fffaf7;
+}
+
+.pending-order-card strong,
+.pending-order-card span,
+.pending-order-card small {
+    display: block;
+}
+
+.pending-order-card strong {
+    color: var(--sys-brown);
+    font-size: 14px;
+}
+
+.pending-order-card span,
+.pending-order-card small {
+    margin-top: 3px;
+    color: var(--sys-muted);
+    font-size: 12px;
+}
+
+.pending-order-card p {
+    margin: 0;
+    color: var(--sys-rose);
+    font-weight: 800;
+}
+
+.pending-order-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.pending-order-actions button {
+    min-height: 34px;
+    padding: 8px 11px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--sys-rose);
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.pending-order-actions button:last-child {
+    background: #8f7b72;
+}
+
+.pending-order-detail {
+    grid-column: 1 / -1;
+    display: none;
+    grid-template-columns: repeat(4, minmax(120px, 1fr));
+    gap: 10px;
+    padding: 12px;
+    border: 1px dashed rgba(163, 88, 109, 0.25);
+    border-radius: 12px;
+    background: #fff;
+}
+
+.pending-order-card.detalle-abierto .pending-order-detail {
+    display: grid;
+}
+
+.pending-order-detail div {
+    display: grid;
+    gap: 3px;
+}
+
+.pending-order-detail span {
+    color: var(--sys-muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.pending-order-detail strong {
+    color: var(--sys-brown);
+    font-size: 13px;
+}
+
+@media (max-width: 780px) {
+    .pending-order-card {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+    }
+
+    .pending-order-detail {
+        grid-template-columns: 1fr;
+    }
+
+    .pending-order-actions {
+        justify-content: flex-start;
+    }
+}
+
+.admin-section-menu {
+    gap: 8px;
+    padding: 10px;
+    border: 1px solid var(--sys-line);
+    border-radius: 16px;
+    background: var(--sys-paper);
+}
+
+.admin-section-menu button {
+    min-height: 38px;
+    border: 1px solid var(--sys-line);
+    border-radius: 12px;
+    background: var(--sys-card);
+}
+
+.admin-section-menu button:hover,
+.admin-section-menu button.activo {
+    background: var(--sys-rose);
+    color: #fff;
+}
+
+.admin-page .form-admin,
+.admin-page .finance-form,
+.venta-form {
+    border-radius: 16px;
+}
+
+.finance-grid,
+.venta-form {
+    align-items: start;
+}
+
+.admin-page .campo label,
+.admin-page .campo .campo-titulo {
+    margin-bottom: 7px;
+    color: var(--sys-rose);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+}
+
+.admin-page .campo input,
+.admin-page .campo select,
+.admin-page .filtros input,
+.admin-page .filtros select,
+.compra-modal input,
+.compra-modal select {
+    min-height: 43px;
+    border-color: var(--sys-line);
+    border-radius: 12px;
+    background: #fff;
+}
+
+.admin-page .btn,
+.admin-page .btn-agregar,
+.admin-page .tabla-inventario button {
+    min-height: 36px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.admin-page .btn:hover,
+.admin-page .btn-agregar:hover,
+.admin-page .tabla-inventario button:hover {
+    background: var(--sys-rose-dark);
+}
+
+.compra-tallas-panel {
+    grid-column: 1 / -1;
+}
+
+.compra-color-panel {
+    grid-column: 1 / -1;
+    margin-bottom: -4px;
+}
+
+.admin-page .proveedores-registros {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 16px;
+}
+
+.admin-page #formProveedor,
+.admin-page #formCompraMercancia {
+    display: grid;
+    gap: 12px;
+    padding: 14px;
+}
+
+.admin-page #formProveedor {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.admin-page #formCompraMercancia {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.admin-page #formProveedor h3,
+.admin-page #formProveedor button[type="submit"],
+.admin-page #formCompraMercancia h3,
+.admin-page #formCompraMercancia .purchase-items-box,
+.admin-page #formCompraMercancia button[type="submit"] {
+    grid-column: 1 / -1;
+}
+
+.admin-page #formProveedor .campo,
+.admin-page #formCompraMercancia .campo {
+    margin-bottom: 0;
+}
+
+.admin-page #formCompraMercancia .compra-color-panel,
+.admin-page #formCompraMercancia .compra-tallas-panel {
+    grid-column: span 2;
+}
+
+.admin-page #btnAgregarItemCompra {
+    grid-column: span 2;
+    align-self: end;
+}
+
+.admin-page #formCompraMercancia .purchase-items-box {
+    margin: 0;
+    padding: 12px;
+}
+
+.compra-color-builder {
+    gap: 8px;
+}
+
+.compra-color-builder .variant-custom-color {
+    max-width: 520px;
+}
+
+.compra-talla-builder {
+    display: grid;
+    grid-template-columns: minmax(150px, 1fr) minmax(90px, 130px) auto;
+    gap: 10px;
+    align-items: center;
+}
+
+.compra-talla-builder .btn {
+    white-space: nowrap;
+}
+
+.compra-tallas-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 36px;
+    margin-top: 10px;
+    padding: 8px;
+    border: 1px dashed var(--sys-line);
+    border-radius: 12px;
+    background: #fffaf7;
+}
+
+.compra-tallas-lista span {
+    color: var(--sys-muted);
+    font-size: 12px;
+}
+
+.compra-tallas-lista button {
+    min-height: 30px;
+    border: 1px solid rgba(163, 67, 94, 0.25);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--sys-rose);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 6px 10px;
+}
+
+.compra-tallas-lista button:hover {
+    background: var(--sys-rose);
+    color: #fff;
+}
+
+.admin-page .tabla-inventario {
+    border-color: var(--sys-line);
+    border-radius: 16px;
+    box-shadow: none;
+}
+
+.admin-page .tabla-inventario thead {
+    background: var(--sys-brown);
+}
+
+.admin-page .tabla-inventario th {
+    padding: 11px 12px;
+    font-size: 11px;
+    letter-spacing: 0.09em;
+}
+
+.admin-page .tabla-inventario td {
+    padding: 10px 12px;
+}
+
+.admin-page .tabla-inventario tbody tr:nth-child(even) {
+    background: #fffaf7;
+}
+
+.admin-page .tabla-inventario tbody tr:hover {
+    background: var(--sys-soft);
+}
+
+.admin-page .tabla-inventario-productos {
+    min-width: 980px;
+    table-layout: fixed;
+}
+
+.admin-page .tabla-inventario-productos th,
+.admin-page .tabla-inventario-productos td {
+    padding: 8px 7px;
+    font-size: 11px;
+    line-height: 1.25;
+    vertical-align: top;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
+}
+
+.admin-page .tabla-inventario-productos th {
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: none;
+}
+
+.admin-page .tabla-inventario-productos th:nth-child(1),
+.admin-page .tabla-inventario-productos td:nth-child(1) {
+    width: 240px;
+}
+
+.admin-page .tabla-inventario-productos th:nth-child(2),
+.admin-page .tabla-inventario-productos td:nth-child(2) {
+    width: 78px;
+}
+
+.admin-page .tabla-inventario-productos th:nth-child(3),
+.admin-page .tabla-inventario-productos td:nth-child(3) {
+    width: 88px;
+}
+
+.admin-page .tabla-inventario-productos th:nth-child(4),
+.admin-page .tabla-inventario-productos td:nth-child(4) {
+    width: 82px;
+}
+
+.admin-page .tabla-inventario-productos th:nth-child(5),
+.admin-page .tabla-inventario-productos td:nth-child(5) {
+    width: 118px;
+}
+
+.admin-page .tabla-inventario-productos th:nth-child(6),
+.admin-page .tabla-inventario-productos td:nth-child(6) {
+    width: 76px;
+    text-align: center;
+}
+
+.admin-page .tabla-inventario-productos th:nth-child(7),
+.admin-page .tabla-inventario-productos td:nth-child(7) {
+    width: 108px;
+}
+
+.admin-page .tabla-inventario-productos th:nth-child(8),
+.admin-page .tabla-inventario-productos td:nth-child(8) {
+    width: 72px;
+}
+
+.admin-page .tabla-inventario-productos th:nth-child(9),
+.admin-page .tabla-inventario-productos td:nth-child(9) {
+    width: 110px;
+}
+
+.admin-page .tabla-inventario-productos th:nth-child(10),
+.admin-page .tabla-inventario-productos td:nth-child(10) {
+    width: 108px;
+}
+
+.admin-page .tabla-inventario-productos button {
+    min-height: 30px;
+    padding: 5px 7px;
+    margin: 2px 0;
+    font-size: 10px;
+    border-radius: 9px;
+}
+
+.admin-page .tabla-inventario-productos .inventory-product-cell {
+    gap: 7px;
+    align-items: flex-start;
+}
+
+.admin-page .tabla-inventario-productos .inventory-product-cell img {
+    width: 42px;
+    height: 52px;
+    flex: 0 0 42px;
+}
+
+.admin-page .proveedores-compras-table {
+    min-width: 780px;
+    table-layout: fixed;
+}
+
+.admin-page .proveedores-compras-table th,
+.admin-page .proveedores-compras-table td {
+    padding: 8px 8px;
+    font-size: 11px;
+    line-height: 1.25;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    vertical-align: top;
+}
+
+.admin-page .proveedores-compras-table th {
+    white-space: nowrap;
+    overflow-wrap: normal;
+}
+
+.admin-page .proveedores-compras-table th:nth-child(1),
+.admin-page .proveedores-compras-table td:nth-child(1) {
+    width: 76px;
+}
+
+.admin-page .proveedores-compras-table th:nth-child(2),
+.admin-page .proveedores-compras-table td:nth-child(2) {
+    width: 120px;
+}
+
+.admin-page .proveedores-compras-table th:nth-child(3),
+.admin-page .proveedores-compras-table td:nth-child(3) {
+    width: 190px;
+}
+
+.admin-page .proveedores-compras-table th:nth-child(4),
+.admin-page .proveedores-compras-table td:nth-child(4) {
+    width: 92px;
+}
+
+.admin-page .proveedores-compras-table th:nth-child(5),
+.admin-page .proveedores-compras-table td:nth-child(5) {
+    width: 70px;
+    text-align: center;
+}
+
+.admin-page .proveedores-compras-table th:nth-child(6),
+.admin-page .proveedores-compras-table td:nth-child(6) {
+    width: 168px;
+}
+
+.admin-page .proveedores-compras-table th:nth-child(7),
+.admin-page .proveedores-compras-table td:nth-child(7) {
+    width: 126px;
+    white-space: nowrap;
+}
+
+.admin-page .proveedores-compras-table th:nth-child(8),
+.admin-page .proveedores-compras-table td:nth-child(8) {
+    width: 150px;
+}
+
+.compact-stack-cell {
+    display: grid;
+    gap: 3px;
+    min-width: 0;
+}
+
+.compact-stack-cell strong {
+    color: var(--sys-ink);
+    font-size: 12px;
+    line-height: 1.2;
+}
+
+.compact-stack-cell span,
+.compact-stack-cell small {
+    color: var(--sys-text);
+    font-size: 10.5px;
+    line-height: 1.25;
+}
+
+.compact-stack-cell.money-stack strong,
+.compact-stack-cell.money-stack span,
+.compact-stack-cell.money-stack small {
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.purchase-detail-cell span {
+    min-height: 14px;
+    color: var(--sys-text);
+}
+
+.admin-page .tabla-historial-ventas {
+    min-width: 920px;
+    table-layout: fixed;
+}
+
+.admin-page .tabla-historial-ventas th,
+.admin-page .tabla-historial-ventas td {
+    padding: 9px 8px;
+    font-size: 11px;
+    line-height: 1.25;
+    vertical-align: top;
+}
+
+.admin-page .tabla-historial-ventas th {
+    white-space: nowrap;
+}
+
+.admin-page .tabla-historial-ventas th:nth-child(1),
+.admin-page .tabla-historial-ventas td:nth-child(1) {
+    width: 170px;
+}
+
+.admin-page .tabla-historial-ventas th:nth-child(2),
+.admin-page .tabla-historial-ventas td:nth-child(2) {
+    width: 230px;
+}
+
+.admin-page .tabla-historial-ventas th:nth-child(3),
+.admin-page .tabla-historial-ventas td:nth-child(3) {
+    width: 120px;
+}
+
+.admin-page .tabla-historial-ventas th:nth-child(4),
+.admin-page .tabla-historial-ventas td:nth-child(4) {
+    width: 150px;
+}
+
+.admin-page .tabla-historial-ventas th:nth-child(5),
+.admin-page .tabla-historial-ventas td:nth-child(5) {
+    width: 100px;
+}
+
+.admin-page .tabla-historial-ventas th:nth-child(6),
+.admin-page .tabla-historial-ventas td:nth-child(6) {
+    width: 150px;
+    white-space: nowrap;
+}
+
+.admin-page .tabla-historial-ventas th:nth-child(7),
+.admin-page .tabla-historial-ventas td:nth-child(7) {
+    width: 132px;
+}
+
+.admin-page .historial-main-cell {
+    display: grid;
+    gap: 3px;
+    min-width: 0;
+}
+
+.admin-page .historial-main-cell strong,
+.admin-page .historial-main-cell span,
+.admin-page .historial-main-cell small {
+    overflow-wrap: anywhere;
+}
+
+.admin-page .historial-main-cell strong {
+    color: #2d2422;
+    font-size: 12px;
+}
+
+.admin-page .historial-main-cell span {
+    color: #695a55;
+}
+
+.admin-page .historial-main-cell small {
+    color: #8d7d77;
+}
+
+.admin-page .historial-actions-cell {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.admin-page .tabla-historial-ventas button,
+.admin-page .btn-limpiar-historial {
+    min-height: 32px;
+    padding: 6px 10px;
+    border: 1px solid #d9c7bf;
+    border-radius: 10px;
+    background: #fbf6f1;
+    color: #6f4a45;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    box-shadow: 0 6px 14px rgba(94, 66, 58, 0.08);
+}
+
+.admin-page .tabla-historial-ventas button:hover,
+.admin-page .btn-limpiar-historial:hover {
+    background: #efe4dc;
+    border-color: #b9958f;
+    color: #5c3634;
+}
+
+.vendedor-page .vendedor-panel-header-meta {
+    align-items: stretch;
+}
+
+.vendedor-page .vendedor-panel-header .vendedor-daily-goal {
+    display: flex;
+    width: min(560px, 100%);
+    margin: 0;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.88);
+}
+
+.vendedor-page .vendedor-panel-header .vendedor-daily-goal h3 {
+    font-size: clamp(22px, 2.2vw, 30px);
+}
+
+.vendedor-page .vendedor-panel-header .vendedor-daily-goal p {
+    max-width: none;
+    margin: 0;
+    text-align: left;
+    font-size: 12px;
+}
+
+.admin-page .tabla-vendedor-inventario {
+    min-width: 900px;
+    table-layout: fixed;
+}
+
+.admin-page .tabla-vendedor-inventario th,
+.admin-page .tabla-vendedor-inventario td,
+.admin-page .tabla-vendedor-historial th,
+.admin-page .tabla-vendedor-historial td {
+    padding: 9px 8px;
+    font-size: 11px;
+    line-height: 1.25;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    vertical-align: top;
+}
+
+.admin-page .tabla-vendedor-inventario th,
+.admin-page .tabla-vendedor-historial th {
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.admin-page .tabla-vendedor-inventario th:nth-child(1),
+.admin-page .tabla-vendedor-inventario td:nth-child(1) {
+    width: 88px;
+}
+
+.admin-page .tabla-vendedor-inventario th:nth-child(2),
+.admin-page .tabla-vendedor-inventario td:nth-child(2) {
+    width: 170px;
+}
+
+.admin-page .tabla-vendedor-inventario th:nth-child(3),
+.admin-page .tabla-vendedor-inventario td:nth-child(3),
+.admin-page .tabla-vendedor-inventario th:nth-child(4),
+.admin-page .tabla-vendedor-inventario td:nth-child(4),
+.admin-page .tabla-vendedor-inventario th:nth-child(5),
+.admin-page .tabla-vendedor-inventario td:nth-child(5) {
+    width: 112px;
+}
+
+.admin-page .tabla-vendedor-inventario th:nth-child(6),
+.admin-page .tabla-vendedor-inventario td:nth-child(6) {
+    width: 104px;
+    white-space: nowrap;
+}
+
+.admin-page .tabla-vendedor-inventario th:nth-child(7),
+.admin-page .tabla-vendedor-inventario td:nth-child(7) {
+    width: 82px;
+}
+
+.admin-page .tabla-vendedor-inventario th:nth-child(8),
+.admin-page .tabla-vendedor-inventario td:nth-child(8) {
+    width: 178px;
+}
+
+.admin-page .tabla-vendedor-inventario td:nth-child(8) {
+    line-height: 1.35;
+}
+
+.admin-page .tabla-vendedor-inventario th:nth-child(9),
+.admin-page .tabla-vendedor-inventario td:nth-child(9) {
+    width: 112px;
+}
+
+.admin-page .tabla-vendedor-inventario td:nth-child(9) {
+    text-align: center;
+}
+
+.admin-page .tabla-vendedor-historial {
+    min-width: 980px;
+    table-layout: fixed;
+}
+
+.admin-page .tabla-vendedor-historial th:nth-child(1),
+.admin-page .tabla-vendedor-historial td:nth-child(1) {
+    width: 150px;
+}
+
+.admin-page .tabla-vendedor-historial th:nth-child(2),
+.admin-page .tabla-vendedor-historial td:nth-child(2) {
+    width: 170px;
+}
+
+.admin-page .tabla-vendedor-historial th:nth-child(3),
+.admin-page .tabla-vendedor-historial td:nth-child(3) {
+    width: 120px;
+}
+
+.admin-page .tabla-vendedor-historial th:nth-child(4),
+.admin-page .tabla-vendedor-historial td:nth-child(4) {
+    width: 120px;
+}
+
+.admin-page .tabla-vendedor-historial th:nth-child(5),
+.admin-page .tabla-vendedor-historial td:nth-child(5) {
+    width: 150px;
+}
+
+.admin-page .tabla-vendedor-historial th:nth-child(6),
+.admin-page .tabla-vendedor-historial td:nth-child(6) {
+    width: 95px;
+}
+
+.admin-page .tabla-vendedor-historial th:nth-child(7),
+.admin-page .tabla-vendedor-historial td:nth-child(7) {
+    width: 138px;
+}
+
+.admin-page .tabla-vendedor-historial th:nth-child(8),
+.admin-page .tabla-vendedor-historial td:nth-child(8) {
+    width: 160px;
+}
+
+.compact-number-cell,
+.compact-money-cell {
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.table-actions-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.table-actions-inline button {
+    min-height: 30px;
+    padding: 5px 8px;
+    border-radius: 9px;
+    font-size: 11px;
+}
+
+.table-actions-inline span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    color: var(--sys-muted);
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.vendedor-page .vendedor-historial-search {
+    max-width: 520px;
+    margin-bottom: 14px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+.vendedor-page .vendedor-historial-search input {
+    min-height: 44px;
+    font-size: 14px;
+}
+
+.admin-page .btn-limpiar-historial {
+    margin-top: 16px;
+}
+
+.admin-page .historial-search {
+    margin-bottom: 16px;
+}
+
+.admin-page .historial-search input {
+    max-width: 620px;
+}
+
+.admin-page .movimientos-search {
+    margin-bottom: 16px;
+}
+
+.admin-page .movimientos-search input {
+    max-width: 620px;
+}
+
+.admin-page .finance-executive-summary {
+    display: grid;
+    grid-template-columns: minmax(260px, 1.15fr) minmax(280px, 1fr);
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.admin-page .finance-result-card,
+.admin-page .finance-kpi-list,
+.admin-page .finance-operations-grid,
+.admin-page .profitability-panel {
+    border: 1px solid var(--sys-line);
+    border-radius: 16px;
+    background: var(--sys-card);
+    box-shadow: 0 8px 22px rgba(58, 42, 34, 0.05);
+}
+
+.admin-page .finance-result-card {
+    position: relative;
+    overflow: hidden;
+    padding: 13px 16px;
+    background: linear-gradient(135deg, #fff, #fff8f5);
+}
+
+.admin-page .finance-result-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 5px;
+    background: var(--sys-gold);
+}
+
+.admin-page .finance-result-card.estado-saludable::before {
+    background: #9a7a35;
+}
+
+.admin-page .finance-result-card.estado-alerta::before {
+    background: var(--sys-gold);
+}
+
+.admin-page .finance-result-card.estado-perdida::before {
+    background: var(--sys-rose);
+}
+
+.admin-page .finance-result-card span,
+.admin-page .finance-kpi-list span,
+.admin-page .finance-metric-row span {
+    color: var(--sys-muted);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.admin-page .finance-result-card h3 {
+    margin: 6px 0;
+    color: var(--sys-ink);
+    font-size: 16px;
+}
+
+.admin-page .finance-result-card strong {
+    display: block;
+    color: var(--sys-rose);
+    font-family: "Libre Caslon Text", Georgia, serif;
+    font-size: clamp(24px, 2.6vw, 34px);
+    font-weight: 400;
+    line-height: 1;
+}
+
+.admin-page .finance-result-card p {
+    max-width: 520px;
+    margin-top: 12px;
+    color: var(--sys-text);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.admin-page .finance-kpi-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: hidden;
+}
+
+.admin-page .finance-kpi-list > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 15px 18px;
+    border-bottom: 1px solid var(--sys-line);
+}
+
+.admin-page .finance-kpi-list > div:last-child {
+    border-bottom: 0;
+}
+
+.admin-page .finance-kpi-list strong,
+.admin-page .finance-metric-row strong {
+    color: var(--sys-rose);
+    font-size: 19px;
+    font-weight: 900;
+    text-align: right;
+}
+
+.admin-page .finance-operations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 0;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.admin-page .finance-metric-row {
+    min-height: 112px;
+    padding: 16px;
+    border-right: 1px solid var(--sys-line);
+    border-bottom: 1px solid var(--sys-line);
+    background: #fffdfb;
+}
+
+.admin-page .finance-metric-row strong {
+    display: block;
+    margin: 9px 0 6px;
+    text-align: left;
+}
+
+.admin-page .finance-metric-row small {
+    color: var(--sys-text);
+    line-height: 1.35;
+}
+
+.admin-page .finance-summary-view .finance-breakdown {
+    display: grid;
+    grid-template-columns: minmax(240px, 0.9fr) minmax(260px, 1.1fr);
+    gap: 10px;
+    margin: 16px 0;
+}
+
+.admin-page .finance-summary-view .finance-breakdown div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: var(--sys-card);
+    box-shadow: none;
+}
+
+.admin-page .finance-summary-view .finance-breakdown p {
+    margin: 0;
+    text-align: right;
+}
+
+.admin-page .daily-goal-panel {
+    display: grid;
+    grid-template-columns: minmax(240px, 1fr) minmax(180px, 260px);
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 22px;
+    padding: 18px;
+    border: 1px solid var(--sys-line);
+    border-radius: 16px;
+    background: linear-gradient(135deg, #fff, #fff8f5);
+    box-shadow: 0 8px 22px rgba(58, 42, 34, 0.05);
+}
+
+.admin-page .dashboard-hero .daily-goal-panel {
+    width: min(560px, 100%);
+    margin: 0;
+    padding: 14px;
+    background: rgba(255, 253, 251, 0.82);
+}
+
+.admin-page .dashboard-hero .daily-goal-panel h3 {
+    font-size: clamp(22px, 2.2vw, 30px);
+}
+
+.admin-page .dashboard-hero .daily-goal-panel p {
+    font-size: 12px;
+}
+
+.admin-page .dashboard-inline-action {
+    min-height: 34px;
+    margin-top: 8px;
+    padding: 8px 14px;
+    font-size: 13px;
+}
+
+.admin-page .daily-goal-panel span {
+    color: var(--sys-muted);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.admin-page .daily-goal-panel h3 {
+    margin: 6px 0;
+    color: var(--sys-rose);
+    font-family: "Libre Caslon Text", Georgia, serif;
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 400;
+}
+
+.admin-page .daily-goal-panel p {
+    margin: 0;
+    color: var(--sys-text);
+    font-size: 14px;
+}
+
+.admin-page .daily-goal-progress {
+    display: grid;
+    gap: 9px;
+}
+
+.admin-page .daily-goal-progress strong {
+    justify-self: end;
+    color: var(--sys-rose);
+    font-size: 22px;
+}
+
+.admin-page .daily-goal-progress span {
+    display: block;
+    height: 11px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #f1e5df;
+}
+
+.admin-page .daily-goal-progress i {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--sys-gold), var(--sys-rose));
+    transition: width 0.25s ease;
+}
+
+.admin-page .sales-stats-panel {
+    margin-top: 18px;
+}
+
+.admin-page .dashboard-panel-header .report-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    font-weight: 800;
+}
+
+.admin-page .dashboard-panel-header .report-link-btn svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.admin-page .sales-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.admin-page .sales-chart-card {
+    display: grid;
+    gap: 14px;
+    min-height: 250px;
+    padding: 16px;
+    border: 1px solid var(--sys-line);
+    border-radius: 16px;
+    background: #fffdfb;
+}
+
+.admin-page .sales-chart-card span {
+    color: var(--sys-muted);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.admin-page .sales-chart-card strong {
+    display: block;
+    margin-top: 4px;
+    color: var(--sys-rose);
+    font-size: 18px;
+}
+
+.admin-page .sales-chart-card p {
+    margin: 8px 0 0;
+    color: var(--sys-muted);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.admin-page .sales-line-chart {
+    min-height: 250px;
+}
+
+.admin-page .sales-line-chart svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.admin-page .chart-grid-line {
+    stroke: var(--sys-line);
+    stroke-dasharray: 4 5;
+}
+
+.admin-page .chart-axis-line {
+    stroke: #e2cec8;
+}
+
+.admin-page .chart-line {
+    fill: none;
+    stroke: var(--sys-rose);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.admin-page .chart-point {
+    fill: #fffdfb;
+    stroke: var(--sys-rose);
+    stroke-width: 3;
+}
+
+.admin-page .chart-axis-label,
+.admin-page .chart-x-label,
+.admin-page .chart-value-label {
+    fill: var(--sys-muted);
+    font-family: inherit;
+    font-weight: 800;
+}
+
+.admin-page .chart-axis-label,
+.admin-page .chart-x-label {
+    font-size: 13px;
+}
+
+.admin-page .chart-value-label {
+    font-size: 12px;
+}
+
+.admin-page .sales-chart-insight {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    align-items: center;
+    gap: 14px;
+    min-height: 72px;
+    padding: 12px 14px;
+    border: 1px solid var(--sys-line);
+    border-radius: 14px;
+    background: #fff8f5;
+}
+
+.admin-page .sales-chart-insight > span {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--sys-gold);
+    border-radius: 999px;
+    color: var(--sys-rose);
+    font-size: 22px;
+    letter-spacing: 0;
+}
+
+.admin-page .sales-chart-insight strong {
+    margin: 0;
+    color: var(--sys-muted);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.admin-page .sales-chart-insight small {
+    display: block;
+    margin-top: 5px;
+    color: var(--sys-rose);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+/* Paleta descansada para trabajo interno */
+.admin-page .admin-topbar,
+.vendedor-page .admin-topbar {
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 8px 24px rgba(47, 59, 77, 0.05);
+}
+
+.admin-page .admin-tabs,
+.vendedor-page .admin-tabs,
+.admin-page .admin-panel,
+.vendedor-page .admin-panel,
+.admin-page .dashboard-card,
+.admin-page .dashboard-panel,
+.admin-page .admin-module-grid button,
+.admin-page .reporte-card,
+.admin-page .finance-form,
+.admin-page .finance-breakdown div,
+.admin-page .purchase-items-box,
+.admin-page .venta-resumen {
+    border-color: var(--sys-line);
+    background: #ffffff;
+    box-shadow: var(--sys-shadow);
+}
+
+.admin-page .dashboard-hero,
+.vendedor-page .vendedor-panel-header {
+    border-color: var(--sys-line);
+    background: linear-gradient(135deg, #ffffff 0%, #fbfaf9 58%, #f4f1ef 100%);
+}
+
+.admin-page .daily-goal-panel,
+.admin-page .sales-chart-card,
+.admin-page .sales-chart-insight {
+    border-color: var(--sys-line);
+    background: #ffffff;
+}
+
+.admin-page .admin-tab {
+    color: var(--sys-muted);
+}
+
+.admin-page .admin-tab:hover {
+    background: #f4f1ef;
+    color: var(--sys-rose);
+    transform: translateX(2px);
+}
+
+.admin-page .admin-tab.activo {
+    background: var(--sys-rose);
+    color: #ffffff;
+    box-shadow: 0 10px 20px rgba(129, 68, 87, 0.16);
+}
+
+.admin-page .admin-tab.activo::after {
+    background: var(--sys-gold);
+}
+
+.admin-page .btn-secundario,
+.admin-page .dashboard-panel-header button,
+.admin-page .admin-userbar a {
+    border-color: var(--sys-line);
+    background: #ffffff;
+    color: var(--sys-text);
+}
+
+.admin-page .btn-secundario:hover,
+.admin-page .dashboard-panel-header button:hover,
+.admin-page .admin-userbar a:hover {
+    border-color: rgba(152, 84, 106, 0.28);
+    background: #f8f3f1;
+    color: var(--sys-rose);
+}
+
+.admin-page .btn,
+.admin-page .btn-agregar,
+.admin-page .tabla-inventario button,
+.admin-page .admin-userbar button {
+    background: var(--sys-rose);
+    border-color: var(--sys-rose);
+}
+
+.admin-page .btn:hover,
+.admin-page .btn-agregar:hover,
+.admin-page .tabla-inventario button:hover,
+.admin-page .admin-userbar button:hover {
+    background: var(--sys-rose-dark);
+}
+
+.admin-page .dashboard-card:hover,
+.admin-page .reporte-card:hover,
+.admin-page .dashboard-panel:hover {
+    border-color: rgba(148, 163, 184, 0.72);
+    box-shadow: var(--sys-shadow-hover);
+}
+
+.admin-page .dashboard-card::after,
+.admin-page .reporte-card::after {
+    background: linear-gradient(90deg, rgba(201, 166, 107, 0.72), rgba(152, 84, 106, 0.7));
+    opacity: 0.55;
+}
+
+.admin-page .dashboard-card::before,
+.admin-page .reporte-card::before {
+    opacity: 0.028;
+}
+
+.admin-page .chart-grid-line {
+    stroke: rgba(203, 213, 225, 0.88);
+}
+
+.admin-page .chart-axis-line {
+    stroke: rgba(148, 163, 184, 0.65);
+}
+
+.admin-page .chart-line,
+.admin-page .chart-point {
+    stroke: var(--sys-rose);
+}
+
+.admin-page .chart-axis-label,
+.admin-page .chart-x-label,
+.admin-page .chart-value-label {
+    fill: var(--sys-muted);
+}
+
+.admin-page .admin-userbar .notification-button {
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0;
+    border-color: rgba(152, 84, 106, 0.24);
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--sys-rose);
+}
+
+.admin-page .admin-userbar .notification-button .notification-bell {
+    display: block;
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.admin-page .admin-userbar .notification-button.tiene-alerta {
+    background: var(--sys-rose);
+    color: #ffffff;
+    border-color: var(--sys-rose);
+}
+
+.admin-page .admin-userbar .notification-button.tiene-alerta strong {
+    background: var(--sys-gold);
+    color: var(--sys-text);
+}
+
+.admin-page .sales-chart-bars {
+    display: flex;
+    align-items: end;
+    gap: 7px;
+    min-height: 150px;
+    overflow-x: auto;
+    padding: 4px 2px 0;
+}
+
+.admin-page .sales-bar-item {
+    display: grid;
+    flex: 1 0 28px;
+    gap: 7px;
+    min-width: 28px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--sys-text);
+    cursor: help;
+}
+
+.admin-page .sales-bar-track {
+    display: flex;
+    align-items: end;
+    height: 128px;
+    overflow: hidden;
+    border-radius: 999px 999px 6px 6px;
+    background: #f5eae5;
+}
+
+.admin-page .sales-bar-track i {
+    display: block;
+    width: 100%;
+    min-height: 6px;
+    border-radius: inherit;
+    background: linear-gradient(180deg, var(--sys-gold), var(--sys-rose));
+}
+
+.admin-page .sales-bar-item.negativo .sales-bar-track i {
+    background: linear-gradient(180deg, #c99b9b, var(--sys-rose-dark));
+}
+
+.admin-page .sales-bar-item small {
+    color: var(--sys-muted);
+    font-size: 11px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.admin-page .sales-chart-data {
+    display: grid;
+    gap: 6px;
+    padding-top: 10px;
+    border-top: 1px solid var(--sys-line);
+}
+
+.admin-page .sales-data-head,
+.admin-page .sales-data-row {
+    display: grid;
+    grid-template-columns: 0.75fr repeat(3, minmax(74px, 1fr));
+    gap: 8px;
+    align-items: center;
+}
+
+.admin-page .sales-data-head span {
+    color: var(--sys-muted);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.admin-page .sales-data-row {
+    padding: 7px 0;
+    border-bottom: 1px solid #f2e7e1;
+}
+
+.admin-page .sales-data-row span {
+    color: var(--sys-text);
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.admin-page .sales-data-row strong {
+    color: #2f3545;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.admin-page .sales-data-row strong.negativo {
+    color: var(--sys-rose);
+}
+
+.admin-page .finance-state-panel {
+    display: grid;
+    gap: 18px;
+}
+
+.admin-page .finance-state-hero {
+    display: grid;
+    grid-template-columns: minmax(280px, 1.1fr) minmax(300px, 0.9fr);
+    gap: 14px;
+    align-items: start;
+}
+
+.admin-page .finance-state-hero .finance-result-card {
+    align-self: start;
+}
+
+.admin-page .finance-state-metrics {
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: hidden;
+    border: 1px solid var(--sys-line);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 10px 24px rgba(93, 55, 45, 0.06);
+}
+
+.admin-page .finance-state-metrics > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: auto;
+    padding: 14px 16px;
+    border-right: 0;
+    border-bottom: 1px solid #f0e2dc;
+}
+
+.admin-page .finance-state-metrics > div:last-child {
+    border-bottom: 0;
+}
+
+.admin-page .finance-state-metrics span {
+    color: var(--sys-muted);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.admin-page .finance-state-metrics strong {
+    color: var(--sys-rose);
+    font-size: clamp(18px, 1.8vw, 23px);
+    text-align: right;
+}
+
+.admin-page .finance-state-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+    gap: 18px;
+    align-items: start;
+}
+
+.admin-page .finance-summary-shell {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+}
+
+.admin-page .finance-summary-menu {
+    position: sticky;
+    top: 18px;
+    display: grid;
+    gap: 9px;
+    padding: 12px;
+    border: 1px solid var(--sys-line);
+    border-radius: 16px;
+    background: #fffaf7;
+    box-shadow: 0 10px 24px rgba(93, 55, 45, 0.06);
+}
+
+.admin-page .finance-summary-menu button {
+    min-height: 42px;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--sys-text);
+    font-weight: 800;
+    text-align: left;
+    cursor: pointer;
+}
+
+.admin-page .finance-summary-menu button:hover,
+.admin-page .finance-summary-menu button.activo {
+    border-color: #d9c1c3;
+    background: var(--sys-rose);
+    color: #fff;
+}
+
+.admin-page .finance-summary-section {
+    display: none;
+}
+
+.admin-page .finance-summary-section.activo {
+    display: block;
+}
+
+.admin-page .cash-intelligence-panel {
+    margin: 18px 0;
+    padding: 18px;
+    border: 1px solid var(--sys-line);
+    border-radius: 16px;
+    background: linear-gradient(135deg, #fffdfa, #fff5f1);
+    box-shadow: var(--sys-shadow);
+}
+
+.admin-page .cash-intelligence-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.admin-page .cash-intelligence-header span,
+.admin-page .sale-allocation-box span,
+.admin-page .cash-classification-card span {
+    color: var(--sys-muted);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.admin-page .cash-intelligence-header h3 {
+    margin: 6px 0 0;
+    color: var(--sys-rose);
+    font-size: 23px;
+}
+
+.admin-page .cash-intelligence-header > strong {
+    color: var(--sys-gold-dark);
+    font-size: 24px;
+    white-space: nowrap;
+}
+
+.admin-page .cash-classification-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+}
+
+.admin-page .cash-classification-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 12px;
+    align-items: center;
+    padding: 11px 12px;
+    border: 1px solid var(--sys-line);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.82);
+}
+
+.admin-page .cash-classification-card strong {
+    margin: 0;
+    color: var(--sys-rose);
+    font-size: 17px;
+    text-align: right;
+}
+
+.admin-page .cash-classification-card.negativo strong {
+    color: #7d5144;
+}
+
+.admin-page .cash-classification-card small {
+    grid-column: 1 / -1;
+    color: var(--sys-text);
+    line-height: 1.35;
+    font-size: 12px;
+}
+
+.admin-page .sale-allocation-box {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--sys-line);
+}
+
+.admin-page .sale-allocation-box > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 10px;
+}
+
+.admin-page .sale-allocation-box > div:first-child strong {
+    color: var(--sys-rose);
+}
+
+.admin-page .sale-allocation-list {
+    display: grid;
+    gap: 8px;
+}
+
+.admin-page .sale-allocation-list article {
+    display: grid;
+    gap: 4px;
+    padding: 10px 12px;
+    border: 1px solid var(--sys-line);
+    border-radius: 12px;
+    background: #fff;
+}
+
+.admin-page .sale-allocation-list article div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.admin-page .sale-allocation-list article strong {
+    color: var(--sys-ink);
+}
+
+.admin-page .sale-allocation-list article span {
+    color: var(--sys-rose);
+    font-weight: 800;
+}
+
+.admin-page .sale-allocation-list article p,
+.admin-page .sale-allocation-list > p {
+    margin: 0;
+    color: var(--sys-text);
+    font-size: 13px;
+}
+
+.admin-page .info-tip {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: 18px;
+    height: 18px;
+    margin-left: 5px;
+    border: 1px solid #d9c1c3;
+    border-radius: 50%;
+    background: #fffaf7;
+    color: var(--sys-rose);
+    font: 800 11px/1 Arial, sans-serif;
+    vertical-align: middle;
+    cursor: help;
+}
+
+.admin-page .info-tip::after {
+    content: attr(data-tip);
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 9px);
+    z-index: 20;
+    width: max-content;
+    max-width: min(260px, 80vw);
+    padding: 9px 10px;
+    border: 1px solid var(--sys-line);
+    border-radius: 10px;
+    background: var(--sys-ink);
+    color: #ffffff !important;
+    font-family: "Montserrat", Arial, sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    letter-spacing: 0;
+    text-align: left;
+    text-transform: none;
+    white-space: normal;
+    box-shadow: 0 12px 28px rgba(45, 36, 34, 0.2);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 4px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    display: none;
+}
+
+.admin-page .info-tip::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 4px);
+    z-index: 21;
+    width: 9px;
+    height: 9px;
+    background: var(--sys-ink);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 4px) rotate(45deg);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    display: none;
+}
+
+.admin-page .info-tip:hover::after,
+.admin-page .info-tip:focus-visible::after,
+.admin-page .info-tip:hover::before,
+.admin-page .info-tip:focus-visible::before {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.admin-page .info-tip:focus-visible {
+    outline: 2px solid var(--sys-gold);
+    outline-offset: 2px;
+}
+
+.floating-info-tip {
+    position: fixed;
+    z-index: 9999;
+    max-width: min(280px, calc(100vw - 32px));
+    padding: 10px 12px;
+    border: 1px solid var(--sys-line);
+    border-radius: 10px;
+    background: #fffaf7 !important;
+    color: var(--sys-ink) !important;
+    -webkit-text-fill-color: var(--sys-ink);
+    font-family: Arial, sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    letter-spacing: 0 !important;
+    text-shadow: none !important;
+    text-transform: none !important;
+    box-shadow: 0 14px 30px rgba(45, 36, 34, 0.16);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.floating-info-tip.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 900px) {
+    .admin-page .finance-state-hero,
+    .admin-page .finance-state-grid,
+    .admin-page .finance-executive-summary,
+    .admin-page .finance-summary-view .finance-breakdown,
+    .admin-page .sales-stats-grid,
+    .admin-page .daily-goal-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-page .finance-summary-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-page .finance-summary-menu {
+        position: static;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-page .finance-summary-menu button {
+        text-align: center;
+    }
+
+    .admin-page .cash-intelligence-header {
+        flex-direction: column;
+    }
+}
+
+.admin-page .movimientos-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 10px;
+    overflow-x: auto;
+}
+
+.admin-page .movimientos-actions input {
+    flex: 0 0 190px;
+}
+
+.admin-page .movimientos-actions button {
+    flex: 0 0 auto;
+    min-height: 42px;
+    padding: 10px 14px;
+    border: 1px solid #d9c7bf;
+    border-radius: 12px;
+    background: #fbf6f1;
+    color: #6f4a45;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    box-shadow: 0 8px 18px rgba(94, 66, 58, 0.08);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.admin-page .movimientos-actions button:hover {
+    background: #efe4dc;
+    border-color: #b9958f;
+    color: #5c3634;
+}
+
+.pagination-control {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 16px 0 28px;
+    padding: 6px 0;
+}
+
+.pagination-control[hidden] {
+    display: none;
+}
+
+.pagination-control button {
+    min-width: 34px;
+    height: 34px;
+    padding: 0 10px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: transparent;
+    color: #7d6866;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.pagination-control button:hover:not(:disabled),
+.pagination-control button.activo {
+    border-color: #c9a46a;
+    background: #fff4ed;
+    color: #954053;
+}
+
+.pagination-control button:disabled {
+    cursor: not-allowed;
+    color: #d2c7c3;
+}
+
+.pagination-control span {
+    color: #b4a4a0;
+    font-weight: 700;
+}
+
+.facturas-filtros input {
+    max-width: 620px;
+}
+
+.facturas-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--sys-line);
+    border-radius: 16px;
+    background: #fff;
+}
+
+.facturas-table-wrap .tabla-inventario {
+    min-width: 720px;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+}
+
+.tabla-facturas {
+    table-layout: fixed;
+}
+
+.tabla-facturas th,
+.tabla-facturas td {
+    padding: 10px 12px;
+    vertical-align: top;
+}
+
+.tabla-facturas th:nth-child(1),
+.tabla-facturas td:nth-child(1) {
+    width: 150px;
+}
+
+.tabla-facturas th:nth-child(2),
+.tabla-facturas td:nth-child(2) {
+    width: 220px;
+}
+
+.tabla-facturas th:nth-child(3),
+.tabla-facturas td:nth-child(3),
+.tabla-facturas th:nth-child(4),
+.tabla-facturas td:nth-child(4) {
+    width: 140px;
+}
+
+.tabla-facturas th:nth-child(5),
+.tabla-facturas td:nth-child(5) {
+    width: 170px;
+}
+
+.tabla-facturas th:nth-child(6),
+.tabla-facturas td:nth-child(6) {
+    width: 90px;
+}
+
+.tabla-facturas td strong {
+    display: block;
+    color: var(--sys-brown);
+    font-size: 13px;
+    line-height: 1.25;
+}
+
+.tabla-facturas td span {
+    display: block;
+    margin-top: 3px;
+    color: var(--sys-muted);
+    font-size: 11px;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+
+.admin-panel::-webkit-scrollbar,
+.purchase-items-scroll::-webkit-scrollbar {
+    height: 10px;
+}
+
+.admin-panel::-webkit-scrollbar-track,
+.purchase-items-scroll::-webkit-scrollbar-track {
+    background: #f2e8e2;
+    border-radius: 999px;
+}
+
+.admin-panel::-webkit-scrollbar-thumb,
+.purchase-items-scroll::-webkit-scrollbar-thumb {
+    background: #c9aea3;
+    border-radius: 999px;
+}
+
+.stock-alto {
+    color: #2f8f70;
+}
+
+.stock-medio {
+    color: #bd7a22;
+}
+
+.stock-bajo {
+    color: #b9364f;
+}
+
+.vendedor-page .admin-shell {
+    grid-template-columns: 220px minmax(0, 1fr);
+}
+
+.venta-layout {
+    grid-template-columns: minmax(0, 1fr) 330px;
+    gap: 18px;
+}
+
+.venta-form {
+    padding: 18px;
+    border: 1px solid var(--sys-line);
+    background: var(--sys-card);
+}
+
+.venta-resumen {
+    background: var(--sys-soft);
+}
+
+.venta-resumen h3 {
+    font-size: 24px;
+}
+
+.venta-resumen p {
+    color: var(--sys-muted);
+}
+
+.venta-resumen strong {
+    line-height: 1.1;
+}
+
+.venta-resumen .venta-total-monto {
+    display: block;
+}
+
+.venta-resumen .venta-total-iva {
+    display: block;
+    margin-top: 10px;
+    color: var(--sys-muted);
+    font-family: "Plus Jakarta Sans", "Segoe UI", Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.venta-resumen .venta-desglose {
+    margin-top: 16px;
+    padding: 12px;
+    border: 1px solid var(--sys-line);
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.venta-resumen .venta-desglose div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 4px 0;
+    color: var(--sys-muted);
+    font-size: 13px;
+}
+
+.venta-resumen .venta-desglose span {
+    margin: 0;
+    color: var(--sys-muted);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+}
+
+.venta-resumen .venta-desglose strong {
+    margin: 0;
+    color: var(--sys-text);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+@media (max-width: 1000px) {
+    .admin-page .proveedores-registros,
+    .admin-page #formProveedor,
+    .admin-page #formCompraMercancia {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-page #formCompraMercancia .compra-color-panel,
+    .admin-page #formCompraMercancia .compra-tallas-panel,
+    .admin-page #btnAgregarItemCompra {
+        grid-column: 1 / -1;
+    }
+
+    .compra-talla-builder {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-page .admin-shell,
+    .vendedor-page .admin-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-page .admin-tabs {
+        position: static;
+        display: flex;
+        overflow-x: auto;
+        gap: 8px;
+    }
+
+    .admin-tabs-title {
+        display: none;
+    }
+
+    .admin-page .admin-tab {
+        min-width: max-content;
+    }
+
+    .venta-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+    .admin-topbar {
+        align-items: flex-start;
+    }
+
+    .admin-userbar {
+        justify-content: flex-start;
+    }
+
+    .notification-popover {
+        right: 0;
+        left: auto;
+    }
+
+    .dashboard-hero {
+        display: block;
+    }
+
+    .vendedor-panel-header {
+        display: block;
+    }
+
+    .vendedor-panel-header p {
+        max-width: none;
+        margin-top: 12px;
+        text-align: left;
+    }
+
+    .admin-page .admin-panel {
+        padding: 16px;
+    }
+}

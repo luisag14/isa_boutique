@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - Isa Boutique</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body class="public-page catalog-page stitch-catalog">
+
+    <nav class="menu stitch-nav">
+        <a class="nav-home-arrow" href="index.html" title="Volver al inicio">&larr;</a>
+        <a class="brand-link" href="index.html">Isa Boutique</a>
+        <a href="index.html">Inicio</a>
+        <a href="Producto.html">Ver todo</a>
+        <a href="categoria.html?tipo=blusas">Blusas</a>
+        <a href="categoria.html?tipo=vestidos">Vestidos</a>
+        <a href="categoria.html?tipo=conjuntos">Conjuntos</a>
+        <a href="index.html#contacto">Contacto</a>
+        <button class="cart-link" type="button" id="btnAbrirCarrito"><span class="cart-icon" aria-hidden="true">🛒</span> Carrito <span id="cartCount">0</span></button>
+    </nav>
+
+    <main class="tienda-layout">
+        <header class="catalog-header">
+            <span>Colecciones</span>
+            <h1>Moda femenina</h1>
+            <p>Descubre prendas disponibles, filtra por categoría y registra tu compra.</p>
+        </header>
+
+        <div class="stitch-catalog-grid">
+            <aside class="stitch-filters">
+                <p id="resumenCatalogo">Cargando catálogo...</p>
+
+                <label class="filter-label" for="filtroCategoria">Categoría</label>
+                <select id="filtroCategoria">
+                    <option value="">Todas</option>
+                </select>
+
+                <label class="filter-label" for="ordenProductos">Orden</label>
+                <select id="ordenProductos">
+                    <option value="recientes">Orden original</option>
+                    <option value="precio_asc">Menor precio</option>
+                    <option value="precio_desc">Mayor precio</option>
+                    <option value="stock_desc">Más disponibles</option>
+                </select>
+
+                <div class="price-range-filter">
+                    <div class="price-range-head">
+                        <label class="filter-label" for="filtroPrecioMaximo">Rango de precio</label>
+                        <strong id="precioMaximoTexto">Todos</strong>
+                    </div>
+                    <input id="filtroPrecioMaximo" type="range" min="0" max="0" step="1000" value="0">
+                    <div class="price-range-values">
+                        <span id="precioMinimoTexto">$0</span>
+                        <span id="precioTopeTexto">$0</span>
+                    </div>
+                </div>
+
+                <label class="check-control">
+                    <input id="soloDisponibles" type="checkbox" checked>
+                    Solo disponibles
+                </label>
+
+                <div class="categoria-chips" id="categoriaChips">
+                    <button class="chip activo" data-categoria="">Todo</button>
+                </div>
+            </aside>
+
+            <section class="galeria tienda-galeria">
+                <div class="catalog-search-bar">
+                    <label class="filter-label" for="buscarProducto">Buscar producto</label>
+                    <input id="buscarProducto" type="search" placeholder="Buscar por nombre, marca o código">
+                </div>
+
+                <div id="contenedor-productos" class="contenedor-productos"></div>
+            </section>
+        </div>
+    </main>
+
+    <div id="modalCompra" class="modal-compra" aria-hidden="true">
+        <form id="formCompra" class="compra-modal">
+            <div class="modal-header">
+                <h2>Agregar al carrito</h2>
+                <p id="resumenProducto">Selecciona un producto</p>
+            </div>
+
+            <div class="modal-body">
+                <div class="campo">
+                    <label for="compraColor">Color</label>
+                    <select id="compraColor" required>
+                        <option value="">Seleccionar color</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="compraTalla">Talla</label>
+                    <input id="compraTalla" type="hidden" required>
+                    <div id="compraTallaOpciones" class="size-options public-size-options"></div>
+                </div>
+
+                <div class="campo">
+                    <label for="compraCantidad">Cantidad</label>
+                    <input id="compraCantidad" type="number" min="1" required>
+                </div>
+
+                <div id="resumenCompraPublica" class="checkout-summary"></div>
+                <p id="mensajeCompra" class="mensaje-compra"></p>
+            </div>
+
+            <div class="modal-acciones">
+                <button type="button" class="btn-cancelar" id="btnCancelarCompra">Cancelar</button>
+                <button type="button" class="btn-confirmar" id="btnAgregarCarrito">Agregar al carrito</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="modalCarrito" class="modal-compra" aria-hidden="true">
+        <div class="compra-modal">
+            <div class="modal-header">
+                <h2>Carrito</h2>
+                <p>Productos seleccionados antes de comprar.</p>
+            </div>
+
+            <div class="modal-body">
+                <div id="listaCarrito" class="cart-list"></div>
+                <p id="totalCarrito" class="producto-precio">$0</p>
+                <div id="datosClienteCarrito" class="cart-checkout-form">
+                    <div class="campo">
+                        <label for="carritoCliente">Nombre del cliente</label>
+                        <input id="carritoCliente" required>
+                    </div>
+                    <div class="campo">
+                        <label for="carritoTelefono">Teléfono</label>
+                        <input id="carritoTelefono" required>
+                    </div>
+                    <div class="campo">
+                        <label for="carritoCorreo">Correo</label>
+                        <input id="carritoCorreo" type="email" placeholder="correo@cliente.com">
+                    </div>
+                    <div class="campo">
+                        <label for="carritoMedioPago">Medio de pago</label>
+                        <select id="carritoMedioPago" required>
+                            <option value="">Seleccionar</option>
+                            <option value="efectivo">Efectivo</option>
+                            <option value="transferencia">Transferencia</option>
+                            <option value="tarjeta_debito">Tarjeta debito</option>
+                            <option value="tarjeta_credito">Tarjeta credito</option>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="carritoEntrega">Entrega</label>
+                        <select id="carritoEntrega" required>
+                            <option value="">Seleccionar</option>
+                            <option value="recoger_tienda">Recoger en tienda</option>
+                            <option value="envio_local">Envio local</option>
+                            <option value="envio_nacional">Envio nacional</option>
+                        </select>
+                    </div>
+                    <p id="mensajeCarrito" class="mensaje-compra"></p>
+                </div>
+            </div>
+
+            <div class="modal-acciones">
+                <button type="button" class="btn-cancelar" id="btnCerrarCarrito">Cerrar</button>
+                <button type="button" class="btn-cancelar" id="btnVaciarCarrito">Vaciar</button>
+                <button type="button" class="btn-confirmar" id="btnComprarCarrito">Comprar carrito</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalImagenProducto" class="modal-imagen-producto" aria-hidden="true">
+        <button type="button" id="btnCerrarImagenProducto" aria-label="Cerrar imagen">&times;</button>
+        <button type="button" class="imagen-nav imagen-prev" id="btnImagenAnterior" aria-label="Imagen anterior">‹</button>
+        <img id="imagenProductoGrande" src="" alt="Producto">
+        <button type="button" class="imagen-nav imagen-next" id="btnImagenSiguiente" aria-label="Imagen siguiente">›</button>
+        <span id="contadorImagenProducto" class="imagen-contador"></span>
+    </div>
+
+    <a class="public-whatsapp-bubble" href="https://wa.me/573017674329" target="_blank" rel="noopener" aria-label="Escribir a Isa Boutique por WhatsApp" title="WhatsApp">
+        WA
+    </a>
+
+    <script type="module" src="../js/catalogo-productos-inicio.js?v=20261016-modulos"></script>
+
+
+</body>
+</html>
+

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendedor - Isa Boutique</title>
+    <script>
+        if (window.location.protocol === "file:") {
+            window.location.replace("http://localhost/isa_boutique/html/vendedor.html");
+        }
+    </script>
+    <link rel="stylesheet" href="../css/styles.css?v=20261015-formularios">
+    <link rel="stylesheet" href="../css/internal-system.css?v=20261015-formularios">
+</head>
+
+<body class="admin-page vendedor-page" data-panel="vendedor">
+
+    <div id="loginBox">
+        <div class="login-content">
+            <h2>Panel Vendedor</h2>
+
+            <input type="email" id="correo" aria-label="Correo de acceso" placeholder="Correo">
+            <input type="password" id="clave" aria-label="Contrasena de acceso" placeholder="Contraseña">
+
+            <div class="captcha-login">
+                <label for="captchaRespuesta">Verificacion humana</label>
+                <div class="captcha-login-row">
+                    <span id="captchaPregunta" class="captcha-question">...</span>
+                    <input type="number" id="captchaRespuesta" placeholder="Respuesta" inputmode="numeric">
+                    <button type="button" id="btnRefrescarCaptcha" class="captcha-refresh" title="Nueva pregunta" aria-label="Nueva pregunta">&#8635;</button>
+                </div>
+            </div>
+
+            <button id="btnEntrar">Ingresar</button>
+
+            <button type="button" id="btnRecuperarPassword" class="login-link mail-login-link">
+                <span class="gmail-mark" aria-hidden="true"><i></i><b></b><em></em></span>
+                Recuperar con mi correo
+            </button>
+            <p id="mensaje"></p>
+        </div>
+    </div>
+
+    <div id="contenido" style="display: none;">
+        <header class="admin-topbar">
+            <div>
+                <a class="admin-brand" href="vendedor.html">Isa Boutique</a>
+                <p>Panel de ventas</p>
+            </div>
+
+            <div class="admin-userbar">
+                <span><strong id="nombreUsuario"></strong> <small id="rolUsuario"></small></span>
+                <button type="button" class="notification-button" id="btnNotificacionesVendedor" title="Pedidos web pendientes" aria-label="Pedidos web pendientes">
+                    <svg class="notification-bell" aria-hidden="true" viewBox="0 0 24 24">
+                        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    <strong id="contadorNotificacionesVendedor">0</strong>
+                </button>
+                <div class="notification-popover" id="panelNotificacionesVendedor" aria-live="polite"></div>
+                <a href="index.html">Ver tienda</a>
+                <button id="btnCerrar">Cerrar sesión</button>
+            </div>
+        </header>
+
+        <div class="admin-shell vendedor-shell">
+            <aside class="admin-tabs">
+                <div class="admin-tabs-title">
+                    <button type="button" class="btn-panel-back" id="btnVolverPanelVendedor" title="Volver al panel anterior" aria-label="Volver al panel anterior">←</button>
+                    <span>Ventas</span>
+                </div>
+                <button class="admin-tab activo" data-panel-target="panel-venta">Registrar venta</button>
+                <button class="admin-tab" data-panel-target="panel-inventario">Inventario</button>
+                <button class="admin-tab" data-panel-target="panel-historial">Historial</button>
+                <button class="admin-tab" data-panel-target="panel-reportes">Resumen</button>
+            </aside>
+
+            <main class="admin-content">
+                <section id="panel-venta" class="admin-panel activo">
+                    <div class="vendedor-panel-header vendedor-panel-header-meta">
+                        <div>
+                            <span>Operación</span>
+                            <h2>Registrar venta</h2>
+                        </div>
+                        <div class="daily-goal-panel vendedor-daily-goal">
+                            <div>
+                                <span>Meta diaria</span>
+                                <h3 id="vendedorMetaDiariaVenta">$0</h3>
+                                <p id="vendedorMetaDiariaTextoVenta">Calculando avance del día...</p>
+                            </div>
+                            <div class="daily-goal-progress">
+                                <strong id="vendedorMetaDiariaAvanceVenta">0%</strong>
+                                <span><i id="vendedorMetaDiariaBarraVenta"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-panel pedidos-pendientes-panel vendedor-pending-panel">
+                        <div class="dashboard-panel-header">
+                            <div>
+                                <span>Pedidos online</span>
+                                <h3>Pedidos web pendientes</h3>
+                            </div>
+                            <button type="button" onclick="activarPanelVendedor('panel-historial')">Ver historial</button>
+                        </div>
+                        <div id="pedidosPendientesVendedor" class="pending-orders-list"></div>
+                    </div>
+
+                    <div class="venta-layout">
+                        <form id="formVenta" class="venta-form">
+                            <div class="campo venta-scan-field">
+                                <label for="ventaCodigoBarras">Código de barras</label>
+                                <div class="scan-code-row">
+                                    <input id="ventaCodigoBarras" placeholder="Escanea o escribe el código">
+                                    <button type="button" id="btnBuscarCodigoVenta">Buscar</button>
+                                </div>
+                                <small>El lector escribe el código y selecciona el producto automáticamente.</small>
+                            </div>
+
+                            <div class="campo">
+                                <label for="ventaProducto">Producto</label>
+                                <select id="ventaProducto" required>
+                                    <option value="">Seleccionar producto</option>
+                                </select>
+                            </div>
+
+                            <div class="campo">
+                                <label for="ventaColor">Color</label>
+                                <select id="ventaColor" required>
+                                    <option value="">Seleccionar color</option>
+                                </select>
+                            </div>
+
+                            <div class="campo">
+                                <label for="ventaTalla">Talla</label>
+                                <select id="ventaTalla" required>
+                                    <option value="">Seleccionar talla</option>
+                                </select>
+                            </div>
+
+                            <div class="campo">
+                                <label for="ventaCliente">Cliente</label>
+                                <input id="ventaCliente" placeholder="Nombre del cliente" required>
+                            </div>
+
+                            <div class="campo">
+                                <label for="ventaTelefono">Teléfono</label>
+                                <input id="ventaTelefono" placeholder="Teléfono o WhatsApp" required>
+                            </div>
+
+                            <div class="campo">
+                                <label for="ventaTipoDocumento">Tipo de documento</label>
+                                <select id="ventaTipoDocumento">
+                                    <option value="CC">Cédula de ciudadanía</option>
+                                    <option value="CE">Cédula de extranjería</option>
+                                    <option value="NIT">NIT</option>
+                                    <option value="PASAPORTE">Pasaporte</option>
+                                    <option value="OTRO">Otro</option>
+                                </select>
+                            </div>
+
+                            <div class="campo">
+                                <label for="ventaNumeroDocumento">Número de documento</label>
+                                <input id="ventaNumeroDocumento" placeholder="Documento del cliente">
+                            </div>
+
+                            <div class="campo">
+                                <label for="ventaCorreo">Correo</label>
+                                <input id="ventaCorreo" type="email" placeholder="correo@cliente.com">
+                            </div>
+
+                            <div class="campo">
+                                <label for="ventaCantidad">Cantidad</label>
+                                <input id="ventaCantidad" type="number" min="1" value="1" required>
+                            </div>
+
+                            <div class="campo">
+                                <label for="ventaDescuentoValor">Descuento</label>
+                                <div class="discount-row">
+                                    <select id="ventaDescuentoTipo" aria-label="Tipo de descuento de la venta">
+                                        <option value="valor">$</option>
+                                        <option value="porcentaje">%</option>
+                                    </select>
+                                    <input id="ventaDescuentoValor" type="number" min="0" value="0" placeholder="0">
+                                </div>
+                            </div>
+
+                            <div class="campo">
+                                <label for="ventaMedioPago">Medio de pago</label>
+                                <select id="ventaMedioPago" required>
+                                    <option value="efectivo">Efectivo</option>
+                                    <option value="transferencia">Transferencia</option>
+                                    <option value="tarjeta_debito">Tarjeta débito</option>
+                                    <option value="tarjeta_credito">Tarjeta crédito</option>
+                                </select>
+                            </div>
+
+                            <div class="campo">
+                                <label for="ventaCanal">Canal de venta</label>
+                                <select id="ventaCanal" required>
+                                    <option value="tienda_fisica">Tienda física</option>
+                                    <option value="whatsapp">WhatsApp</option>
+                                    <option value="instagram">Instagram</option>
+                                    <option value="pagina_web">Página web</option>
+                                </select>
+                            </div>
+
+                            <div class="campo">
+                                <label for="ventaEntrega">Entrega</label>
+                                <select id="ventaEntrega" required>
+                                    <option value="recoger_tienda">Recoge en tienda</option>
+                                    <option value="envio_local">Envío local</option>
+                                    <option value="envio_nacional">Envío nacional</option>
+                                </select>
+                            </div>
+
+                            <button class="btn btn-agregar" type="submit">Guardar venta</button>
+                            <p id="mensajeVenta" class="mensaje-compra"></p>
+                        </form>
+
+                        <aside class="venta-resumen">
+                            <span>Detalle</span>
+                            <h3 id="ventaNombreProducto">Sin producto seleccionado</h3>
+                            <p id="ventaCodigoProducto">Código: -</p>
+                            <p id="ventaColorProducto">Color: -</p>
+                            <p id="ventaTallasProducto">Tallas disponibles: -</p>
+                            <p id="ventaStockProducto">Stock: -</p>
+                            <div id="ventaDesglose" class="venta-desglose"></div>
+                            <strong id="ventaTotal">$0</strong>
+                        </aside>
+                    </div>
+                </section>
+
+                <section id="panel-inventario" class="admin-panel">
+                    <h2>Inventario disponible</h2>
+
+                    <div class="filtros">
+                        <input type="text" id="buscadorVendedor" aria-label="Buscar productos en inventario" placeholder="Buscar producto, código, marca, color o categoría...">
+                    </div>
+
+                    <table class="tabla-inventario tabla-vendedor-inventario">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Producto</th>
+                                <th>Marca</th>
+                                <th>Color</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Tallas</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaInventarioVendedor"></tbody>
+                    </table>
+                </section>
+
+                <section id="panel-historial" class="admin-panel">
+                    <h2>Ventas y devoluciones</h2>
+
+                    <div class="filtros vendedor-historial-search">
+                        <input type="text" id="buscadorHistorialVendedor" aria-label="Buscar en el historial de ventas" placeholder="Buscar cliente, producto, código, teléfono o estado...">
+                    </div>
+
+                    <table class="tabla-inventario tabla-vendedor-historial">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Producto</th>
+                                <th>Detalle</th>
+                                <th>Venta</th>
+                                <th>Pago y entrega</th>
+                                <th>Estado</th>
+                                <th>Fecha</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaHistorialVendedor"></tbody>
+                    </table>
+                </section>
+
+                <section id="panel-reportes" class="admin-panel">
+                    <h2>Resumen de ventas</h2>
+
+                    <div class="daily-goal-panel">
+                        <div>
+                            <span>Meta diaria</span>
+                            <h3 id="vendedorMetaDiaria">$0</h3>
+                            <p id="vendedorMetaDiariaTexto">Calculando avance del día...</p>
+                        </div>
+                        <div class="daily-goal-progress">
+                            <strong id="vendedorMetaDiariaAvance">0%</strong>
+                            <span><i id="vendedorMetaDiariaBarra"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="reportes">
+                        <div class="reporte-card">
+                            <h4>Ventas de hoy</h4>
+                            <p id="ventasHoy">$0</p>
+                        </div>
+
+                        <div class="reporte-card">
+                            <h4>Devoluciones de hoy</h4>
+                            <p id="devolucionesHoy">$0</p>
+                        </div>
+
+                        <div class="reporte-card">
+                            <h4>Neto de hoy</h4>
+                            <p id="netoHoy">$0</p>
+                        </div>
+
+                        <div class="reporte-card">
+                            <h4>Ventas del mes</h4>
+                            <p id="ventasMes">$0</p>
+                        </div>
+
+                        <div class="reporte-card">
+                            <h4>Neto del mes</h4>
+                            <p id="netoMes">$0</p>
+                        </div>
+
+                        <div class="reporte-card">
+                            <h4>Producto más vendido</h4>
+                            <p id="productoTop">-</p>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+
+    </div>
+
+    <script type="module" src="../js/script.js?v=20261015-confiabilidad"></script>
+    <script src="../js/vendedor.js?v=20261015-confiabilidad"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,3 @@
+ALTER TABLE usuario_sistema
+ADD COLUMN IF NOT EXISTS sesion_token VARCHAR(128),
+ADD COLUMN IF NOT EXISTS sesion_actualizada TIMESTAMP;
